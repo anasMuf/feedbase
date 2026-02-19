@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "api:dev": "pnpm run --filter=api dev",
+    "admin:dev": "pnpm run --filter=admin dev",
+    "platform:dev": "pnpm run --filter=platform dev",
+    "dev": "pnpm --parallel --filter=api --filter=platform run dev"
   },
   "keywords": [],
   "author": "",
