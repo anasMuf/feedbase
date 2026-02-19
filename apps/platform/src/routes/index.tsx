@@ -1,7 +1,46 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { api }                        from "@/utils/api";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
+import { useState }                   from "react";
 
-export const Route = createFileRoute("/")({ component: App });
+export const Route = createFileRoute("/")({ 
+	component: App, 
+	loader: async () => {
+		const res = await api.users.$get();
+		const data = await res.json();
+		return data;
+	} 
+});
 
 function App() {
-	return <div>Hello Platform!</div>;
+	const router = useRouter();
+	const data = Route.useLoaderData();
+	const [name, setName] = useState("");
+	const [email, setEmail] = useState("");
+
+	async function handlerAddUser() {
+		const res = await api.users.$post({
+			json: {
+				name,
+				email
+			}
+		});
+		const data = await res.json();
+        router.invalidate();
+		setName("");
+		setEmail("");
+		return data;
+	}
+
+	return (
+		<div>
+			<div>{data.users.map((user) => {
+				return <div key={user.id}>{user.name}</div>;
+			})}</div>
+			<div>
+				<input type="text" value={name} placeholder="name" onChange={(e) => setName(e.target.value)} />
+				<input type="email" value={email} placeholder="email" onChange={(e) => setEmail(e.target.value)} />
+				<button type="submit" onClick={handlerAddUser}>Add User</button>
+			</div>
+		</div>
+	);
 }
