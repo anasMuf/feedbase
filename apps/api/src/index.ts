@@ -1,11 +1,11 @@
-import { serve }  from "@hono/node-server";
-import { Hono }   from "hono";
+import { serve } from "@hono/node-server";
+import { Hono } from "hono";
 import { prisma } from "./utils/prisma.js";
 
 const app = new Hono();
 
 app.get("/", async (c) => {
-  await prisma.user.findMany();
+	await prisma.user.findMany();
 
 	return c.text("Hello Hono!");
 });
