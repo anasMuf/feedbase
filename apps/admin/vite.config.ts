@@ -7,7 +7,11 @@ import tsconfigPaths from "vite-tsconfig-paths";
 
 const config = defineConfig({
 	plugins: [
-		devtools(),
+		devtools({
+			eventBusConfig: {
+				port: 42070,
+			},
+		}),
 		tsconfigPaths({ projects: ["./tsconfig.json"] }),
 		tailwindcss(),
 		tanstackStart(),
