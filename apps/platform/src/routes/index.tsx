@@ -1,14 +1,14 @@
-import { api }                        from "@/utils/api";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
-import { useState }                   from "react";
+import { useState } from "react";
+import { api } from "@/utils/api";
 
-export const Route = createFileRoute("/")({ 
-	component: App, 
+export const Route = createFileRoute("/")({
+	component: App,
 	loader: async () => {
 		const res = await api.users.$get();
 		const data = await res.json();
 		return data;
-	} 
+	},
 });
 
 function App() {
@@ -21,11 +21,11 @@ function App() {
 		const res = await api.users.$post({
 			json: {
 				name,
-				email
-			}
+				email,
+			},
 		});
 		const data = await res.json();
-        router.invalidate();
+		router.invalidate();
 		setName("");
 		setEmail("");
 		return data;
@@ -33,13 +33,27 @@ function App() {
 
 	return (
 		<div>
-			<div>{data.users.map((user) => {
-				return <div key={user.id}>{user.name}</div>;
-			})}</div>
 			<div>
-				<input type="text" value={name} placeholder="name" onChange={(e) => setName(e.target.value)} />
-				<input type="email" value={email} placeholder="email" onChange={(e) => setEmail(e.target.value)} />
-				<button type="submit" onClick={handlerAddUser}>Add User</button>
+				{data.users.map((user) => {
+					return <div key={user.id}>{user.name}</div>;
+				})}
+			</div>
+			<div>
+				<input
+					type="text"
+					value={name}
+					placeholder="name"
+					onChange={(e) => setName(e.target.value)}
+				/>
+				<input
+					type="email"
+					value={email}
+					placeholder="email"
+					onChange={(e) => setEmail(e.target.value)}
+				/>
+				<button type="submit" onClick={handlerAddUser}>
+					Add User
+				</button>
 			</div>
 		</div>
 	);
