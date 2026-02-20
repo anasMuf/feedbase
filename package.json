@@ -10,7 +10,11 @@
 		"dev": "pnpm --parallel --filter=api --filter=platform --filter=admin run dev",
 		"lint": "pnpm exec biome check",
 		"lint:fix": "pnpm exec biome check --write --unsafe",
-		"prepare": "husky"
+		"prepare": "husky",
+		"api:build": "pnpm run --filter=api build",
+		"admin:build": "pnpm run --filter=admin build",
+		"platform:build": "pnpm run --filter=platform build",
+		"build": "pnpm --parallel --filter=api --filter=platform --filter=admin run build"
 	},
 	"keywords": [],
 	"author": "",
